@@ -21,3 +21,26 @@ font = pygame.font. SysFont(None, 55)
 
 def text_screen(text, color, x,y):
 screen_text = font.render(text, True, color)
+gameWindow.blit(screen_text, [x,y])
+
+
+def plot_snake(gameWindow, color, snk_list, snake_size):
+for x,y in snk_list:
+pygame.draw.rect(gameWindow, color, [x,y, snake_size, snake_size])
+
+# Game Loop
+def gameloop():
+exit_game = False
+game_over = False
+snake_x = 45
+snake_y = 55
+velocity_x = 0
+velocity_y = 0
+snk_list = []
+snk_length = 1
+
+food_x = random.randint(20, screen_width-20)
+food_y = random.randint(60, screen_height -20)
+score = 0
+init_velocity = 4
+snake size = 30

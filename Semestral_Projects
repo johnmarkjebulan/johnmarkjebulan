@@ -1,0 +1,123 @@
+
+#include <iostream>
+using namespace std;
+
+// Node structure for Linked List
+struct Node {
+    string key;
+    int quantity;
+    Node* next;
+    Node(string k, int q) : key(k), quantity(q), next(nullptr) {}
+};
+
+// Class for Linked List
+class LinkedList {
+private:
+    Node* head;
+public:
+    LinkedList() : head(nullptr) {}
+
+    // Function to add a node to the end of the list
+    void addNode(string key, int quantity) {
+        Node* newNode = new Node(key, quantity);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    // Function to display the list
+    void display() {
+        Node* temp = head;
+        int count = 1;
+        while (temp != nullptr) {
+            cout << count << ". " << temp->key << ": " << temp->quantity << endl;
+            temp = temp->next;
+            count++;
+        }
+    }
+};
+
+// Class for Queue
+class Queue {
+private:
+    struct QueueNode {
+        string key;
+        int quantity;
+        QueueNode* next;
+        QueueNode(string k, int q) : key(k), quantity(q), next(nullptr) {}
+    };
+    QueueNode* front;
+    QueueNode* rear;
+public:
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    // Function to enqueue (add) an item to the queue
+    void enqueue(string key, int quantity) {
+        QueueNode* newNode = new QueueNode(key, quantity);
+        if (rear == nullptr) {
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+
+    // Function to dequeue (remove) an item from the queue
+    void dequeue() {
+        if (front == nullptr) {
+            cout << "Queue is empty." << endl;
+        } else {
+            QueueNode* temp = front;
+            front = front->next;
+            delete temp;
+            if (front == nullptr) {
+                rear = nullptr;
+            }
+        }
+    }
+
+    // Function to display the queue
+    void display() {
+        QueueNode* temp = front;
+        int count = 1;
+        while (temp != nullptr) {
+            cout << count << ". " << temp->key << ": " << temp->quantity << endl;
+            temp = temp->next;
+            count++;
+        }
+    }
+};
+
+int main() {
+    // Array
+    string array[1] = {"Item A"};
+    int array_quantity[1] = {10};
+
+    // Linked List
+    LinkedList linkedList;
+    linkedList.addNode("Item B", 20);
+
+    // Queue
+    Queue queue;
+    queue.enqueue("Item C", 15);
+
+    // Displaying the data structures
+    cout << "Stock Array:" << endl;
+    for (int i = 0; i < 1; i++) {
+        cout << i + 1 << ". " << array[i] << ": " << array_quantity[i] << endl;
+    }
+
+    cout << "\nStock Linked List:" << endl;
+    linkedList.display();
+
+    cout << "\nStock Queue:" << endl;
+    queue.display();
+
+    return 0;
+}

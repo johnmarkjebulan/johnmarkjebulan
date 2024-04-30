@@ -1,4 +1,3 @@
-
 #include <iostream>
 using namespace std;
 
@@ -8,7 +7,7 @@ struct Node {
     int quantity;
     Node* next;
     Node(string k, int q) : key(k), quantity(q), next(nullptr) {}
-};
+}
 
 // Class for Linked List
 class LinkedList {
@@ -41,7 +40,7 @@ public:
             count++;
         }
     }
-};
+}
 
 // Class for Queue
 class Queue {
@@ -51,7 +50,7 @@ private:
         int quantity;
         QueueNode* next;
         QueueNode(string k, int q) : key(k), quantity(q), next(nullptr) {}
-    };
+    }
     QueueNode* front;
     QueueNode* rear;
 public:
@@ -92,7 +91,7 @@ public:
             count++;
         }
     }
-};
+}
 
 int main() {
     // Array

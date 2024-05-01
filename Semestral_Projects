@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -7,16 +8,14 @@ struct Node {
     int quantity;
     Node* next;
     Node(string k, int q) : key(k), quantity(q), next(nullptr) {}
-}
+}; // Added semicolon here
 
-// Class for Linked List
 class LinkedList {
 private:
     Node* head;
 public:
     LinkedList() : head(nullptr) {}
 
-    // Function to add a node to the end of the list
     void addNode(string key, int quantity) {
         Node* newNode = new Node(key, quantity);
         if (head == nullptr) {
@@ -30,7 +29,6 @@ public:
         }
     }
 
-    // Function to display the list
     void display() {
         Node* temp = head;
         int count = 1;
@@ -40,9 +38,8 @@ public:
             count++;
         }
     }
-}
+}; // Added semicolon here
 
-// Class for Queue
 class Queue {
 private:
     struct QueueNode {
@@ -50,13 +47,12 @@ private:
         int quantity;
         QueueNode* next;
         QueueNode(string k, int q) : key(k), quantity(q), next(nullptr) {}
-    }
+    }; // Added semicolon here
     QueueNode* front;
     QueueNode* rear;
 public:
     Queue() : front(nullptr), rear(nullptr) {}
 
-    // Function to enqueue (add) an item to the queue
     void enqueue(string key, int quantity) {
         QueueNode* newNode = new QueueNode(key, quantity);
         if (rear == nullptr) {
@@ -67,7 +63,6 @@ public:
         }
     }
 
-    // Function to dequeue (remove) an item from the queue
     void dequeue() {
         if (front == nullptr) {
             cout << "Queue is empty." << endl;
@@ -81,7 +76,6 @@ public:
         }
     }
 
-    // Function to display the queue
     void display() {
         QueueNode* temp = front;
         int count = 1;
@@ -91,7 +85,8 @@ public:
             count++;
         }
     }
-}
+};
+
 
 int main() {
     // Array

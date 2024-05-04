@@ -1,0 +1,67 @@
+#include <iostream>
+#include <array>
+#include <queue>
+#include <list>
+
+using namespace std;
+
+// Define constants
+const int NUM_PRODUCTS = 5;
+
+// Structure to represent a product
+struct Product {
+    int id;
+    string name;
+    int quantity;
+};
+
+int main() {
+    // Array for stock management
+    array<Product, NUM_PRODUCTS> stock;
+
+    // Initializing stock
+    stock[0] = {1, "Product A", 10};
+    stock[1] = {2, "Product B", 20};
+    stock[2] = {3, "Product C", 15};
+    stock[3] = {4, "Product D", 25};
+    stock[4] = {5, "Product E", 30};
+
+    // Display Stock management
+    cout << "Stock Management:" << endl;
+    for (const auto& product : stock) {
+        cout << "ID: " << product.id << ", Name: " << product.name << ", Quantity: " << product.quantity << endl;
+    }
+    cout << endl;
+
+    // Queue for managing orders
+    queue<string> orders;
+
+    // Enqueue orders
+    orders.push("Order1");
+    orders.push("Order2");
+    orders.push("Order3");
+
+    // Process orders
+    cout << "Processing Orders:" << endl;
+    while (!orders.empty()) {
+        cout << "Processing order: " << orders.front() << endl;
+        orders.pop();
+    }
+    cout << endl;
+
+    // List for transaction history
+    list<string> transactionHistory;
+
+    // Add transactions
+    transactionHistory.push_back("Transaction1");
+    transactionHistory.push_back("Transaction2");
+    transactionHistory.push_back("Transaction3");
+
+    // Display transaction history
+    cout << "Transaction History:" << endl;
+    for (const auto& transaction : transactionHistory) {
+        cout << transaction << endl;
+    }
+
+    return 0;
+}

@@ -23,7 +23,7 @@ void manageStockArray() {
 
     // Access and manipulate stock items
     for (int i = 0; i < numItems; ++i) {
-        cout << "Name: " << stock[i].name << ", Quantity: " << stock[i].quantity << ", Price: " << stock[i].price << endl;
+        cout << "Stock: " << stock[i].name << ", Quantity: " << stock[i].quantity << ", Price: " << stock[i].price << endl;
     }
 }
 
@@ -52,7 +52,7 @@ public:
     void displayItems() {
         Node* current = head;
         while (current != nullptr) {
-            cout << "Name: " << current->data.name << ", Quantity: " << current->data.quantity << ", Price: " << current->data.price << endl;
+            cout << "Stock: " << current->data.name << ", Quantity: " << current->data.quantity << ", Price: " << current->data.price << endl;
             current = current->next;
         }
     }
@@ -69,7 +69,7 @@ void manageStockQueue() {
     // Access and manipulate stock items
     while (!stockQueue.empty()) {
         StockItem item = stockQueue.front();
-        cout << "Name: " << item.name << ", Quantity: " << item.quantity << ", Price: " << item.price << endl;
+        cout << "Stock: " << item.name << ", Quantity: " << item.quantity << ", Price: " << item.price << endl;
         stockQueue.pop();
     }
 }

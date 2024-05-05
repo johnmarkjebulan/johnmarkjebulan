@@ -1,0 +1,94 @@
+#include <iostream>
+#include <string>
+#include <queue>
+
+using namespace std;
+
+// Define a structure for the stock item
+struct StockItem {
+    string name;
+    int quantity;
+    float price;
+};
+
+// Function to manage stock using arrays
+void manageStockArray() {
+    const int MAX_STOCK = 100;
+    StockItem stock[MAX_STOCK];
+    int numItems = 0;
+
+    // Add some sample items
+    stock[numItems++] = {"Item1", 10, 20.5};
+    stock[numItems++] = {"Item2", 5, 15.75};
+
+    // Access and manipulate stock items
+    for (int i = 0; i < numItems; ++i) {
+        cout << "Name: " << stock[i].name << ", Quantity: " << stock[i].quantity << ", Price: " << stock[i].price << endl;
+    }
+}
+
+// Function to manage stock using linked list
+class StockLinkedList {
+private:
+    struct Node {
+        StockItem data;
+        Node* next;
+    };
+
+    Node* head;
+
+public:
+    StockLinkedList() : head(nullptr) {}
+
+    // Add item to the linked list
+    void addItem(StockItem item) {
+        Node* newNode = new Node;
+        newNode->data = item;
+        newNode->next = head;
+        head = newNode;
+    }
+
+    // Display all items in the linked list
+    void displayItems() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << "Name: " << current->data.name << ", Quantity: " << current->data.quantity << ", Price: " << current->data.price << endl;
+            current = current->next;
+        }
+    }
+};
+
+// Function to manage stock using queue
+void manageStockQueue() {
+    queue<StockItem> stockQueue;
+
+    // Add some sample items
+    stockQueue.push({"Item1", 10, 20.5});
+    stockQueue.push({"Item2", 5, 15.75});
+
+    // Access and manipulate stock items
+    while (!stockQueue.empty()) {
+        StockItem item = stockQueue.front();
+        cout << "Name: " << item.name << ", Quantity: " << item.quantity << ", Price: " << item.price << endl;
+        stockQueue.pop();
+    }
+}
+
+int main() {
+    // Manage stock using arrays
+    cout << "Managing stock using arrays:" << endl;
+    manageStockArray();
+
+    // Manage stock using linked list
+    cout << "\nManaging stock using linked list:" << endl;
+    StockLinkedList linkedList;
+    linkedList.addItem({"Item1", 10, 20.5});
+    linkedList.addItem({"Item2", 5, 15.75});
+    linkedList.displayItems();
+
+    // Manage stock using queue
+    cout << "\nManaging stock using queue:" << endl;
+    manageStockQueue();
+
+    return 0;
+}

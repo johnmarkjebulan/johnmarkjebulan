@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <list>
 #include <queue>
 using namespace std;
 

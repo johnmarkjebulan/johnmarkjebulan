@@ -70,7 +70,7 @@ public:
 
     // Display all items in the stock array
     void displayArray() {
-        cout << "===== Stock Array =====" << endl;
+        cout << "****** Stock Array ******" << endl;
         if (stockArray.empty()) {
             cout << "No items in stock array." << endl;
         } else {
@@ -78,12 +78,12 @@ public:
                 cout << "Item " << i + 1 << ": " << stockArray[i].itemName << " - Quantity: " << stockArray[i].quantity << endl;
             }
         }
-        cout << "=======================" << endl;
+        cout << "*****************************" << endl;
     }
 
     // Display all items in the stock linked list
     void displayLinkedList() {
-        cout << "===== Stock Linked List =====" << endl;
+        cout << "***** Stock Linked List *****" << endl;
         if (!head) {
             cout << "No items in stock linked list." << endl;
         } else {
@@ -95,12 +95,12 @@ public:
                 count++;
             }
         }
-        cout << "=============================" << endl;
+        cout << "****************************" << endl;
     }
 
     // Display all items in the stock queue
     void displayQueue() {
-        cout << "===== Stock Queue =====" << endl;
+        cout << "***** Stock Queue *****" << endl;
         if (stockQueue.empty()) {
             cout << "No items in stock queue." << endl;
         } else {
@@ -113,7 +113,7 @@ public:
                 count++;
             }
         }
-        cout << "========================" << endl;
+        cout << "****************" << endl;
     }
 
     // Search for an item in the stock array
@@ -183,7 +183,7 @@ int main() {
     StockManagement stockManager; // Create a stock management object
 
     while (true) {
-        cout << "===== Stock Management Menu =====" << endl;
+        cout << "***** Stock Management Menu *****" << endl;
         cout << "1. Add Item" << endl;
         cout << "2. Display Stock" << endl;
         cout << "3. Search Item" << endl;

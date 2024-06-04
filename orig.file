@@ -1,0 +1,140 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for searching
+
+using namespace std;
+
+// Define structure for stock item
+struct StockItem {
+    int id;
+    string name;
+    int quantity;
+    float price;
+};
+
+// Function prototypes
+void addItem(vector<StockItem> &stock);
+void updateItem(vector<StockItem> &stock);
+void deleteItem(vector<StockItem> &stock);
+void displayStock(const vector<StockItem> &stock);
+void searchItem(const vector<StockItem> &stock);
+
+int main() {
+    vector<StockItem> stock;
+
+    int choice;
+    do {
+        cout << "\nStock Management System\n";
+        cout << "1. Add item\n";
+        cout << "2. Update item\n";
+        cout << "3. Delete item\n";
+        cout << "4. Display stock\n";
+        cout << "5. Search for an item\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addItem(stock);
+                break;
+            case 2:
+                updateItem(stock);
+                break;
+            case 3:
+                deleteItem(stock);
+                break;
+            case 4:
+                displayStock(stock);
+                break;
+            case 5:
+                searchItem(stock);
+                break;
+            case 6:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
+
+// Function to add an item to the stock
+void addItem(vector<StockItem> &stock) {
+    StockItem newItem;
+    cout << "\nEnter item ID: ";
+    cin >> newItem.id;
+    cout << "Enter item name: ";
+    cin.ignore();
+    getline(cin, newItem.name);
+    cout << "Enter quantity: ";
+    cin >> newItem.quantity;
+    cout << "Enter price: ";
+    cin >> newItem.price;
+    stock.push_back(newItem);
+    cout << "Item added successfully.\n";
+}
+
+// Function to update an existing item in the stock
+void updateItem(vector<StockItem> &stock) {
+    int id;
+    cout << "\nEnter item ID to update: ";
+    cin >> id;
+    auto it = find_if(stock.begin(), stock.end(), [id](const StockItem &item) {
+        return item.id == id;
+    });
+    if (it != stock.end()) {
+        cout << "Enter new quantity: ";
+        cin >> it->quantity;
+        cout << "Enter new price: ";
+        cin >> it->price;
+        cout << "Item updated successfully.\n";
+    } else {
+        cout << "Item not found.\n";
+    }
+}
+
+// Function to delete an item from the stock
+void deleteItem(vector<StockItem> &stock) {
+    int id;
+    cout << "\nEnter item ID to delete: ";
+    cin >> id;
+    auto it = find_if(stock.begin(), stock.end(), [id](const StockItem &item) {
+        return item.id == id;
+    });
+    if (it != stock.end()) {
+        stock.erase(it);
+        cout << "Item deleted successfully.\n";
+    } else {
+        cout << "Item not found.\n";
+    }
+}
+
+// Function to display all items in the stock
+void displayStock(const vector<StockItem> &stock) {
+    cout << "\nStock:\n";
+    cout << "ID\tName\tQuantity\tPrice\n";
+    for (const auto &item : stock) {
+        cout << item.id << "\t" << item.name << "\t" << item.quantity << "\t\t" << item.price << "\n";
+    }
+}
+
+// Function to search for an item in the stock
+void searchItem(const vector<StockItem> &stock) {
+    string name;
+    cout << "\nEnter item name to search: ";
+    cin.ignore();
+    getline(cin, name);
+    auto it = find_if(stock.begin(), stock.end(), [name](const StockItem &item) {
+        return item.name == name;
+    });
+    if (it != stock.end()) {
+        cout << "Item found:\n";
+        cout << "ID\tName\tQuantity\tPrice\n";
+        cout << it->id << "\t" << it->name << "\t" << it->quantity << "\t\t" << it->price << "\n";
+    } else {
+        cout << "Item not found.\n";
+    }
+}

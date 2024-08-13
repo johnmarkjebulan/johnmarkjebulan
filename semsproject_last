@@ -1,0 +1,290 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for searching
+#include <iomanip>   // for formatting output
+
+using namespace std;
+
+// Define structure for a store item
+struct StoreItem {
+    int id;
+    string name;
+    int quantity;
+    float price;
+    int quantitySold; // Track the quantity sold for each item
+};
+
+// Function prototypes
+void addItem(vector<StoreItem> &stock);
+void updateItem(vector<StoreItem> &stock);
+void deleteItem(vector<StoreItem> &stock);
+void displayStock(const vector<StoreItem> &stock);
+void searchItem(const vector<StoreItem> &stock);
+void initializeStock(vector<StoreItem> &stock);
+void sellItem(vector<StoreItem> &stock);
+void showSoldItems(const vector<StoreItem> &stock); // Function to show sold items
+
+int getNextId(const vector<StoreItem> &stock) {
+    int maxId = 0;
+    for (const auto &item : stock) {
+        if (item.id > maxId) {
+            maxId = item.id;
+        }
+    }
+    return maxId + 1;
+}
+
+int main() {
+    vector<StoreItem> stock;
+
+    // Initialize stock with predefined store
+    initializeStock(stock);
+
+    // Display all items immediately after initialization
+    displayStock(stock);
+
+    int choice;
+    do {
+        cout << "\nStore Stock Management System\n";
+        cout << "1. Add items\n";
+        cout << "2. Update items\n";
+        cout << "3. Delete items\n";
+        cout << "4. Display items\n";
+        cout << "5. Sell items\n";
+        cout << "6. Show Sold Items\n"; // Option for showing sold items
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addItem(stock);
+                break;
+            case 2:
+                updateItem(stock);
+                break;
+            case 3:
+                deleteItem(stock);
+                break;
+            case 4:
+                displayStock(stock);
+                break;
+            case 5:
+                sellItem(stock);
+                break;
+            case 6:
+                showSoldItems(stock); // Call the function to show sold items
+                break;
+            case 7:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 7);
+
+    return 0;
+}
+
+// Function to initialize the stock with predefined store
+void initializeStock(vector<StoreItem> &stock) {
+    vector<StoreItem> initialStore = {
+        // New items
+        {1, "Shoes", 10, 1699.99, 0},
+        {2, "Socks", 20, 69.95, 0},
+        {3, "Gloves", 15, 29.99, 0},
+        {4, "Boxer", 12, 39.99, 0},
+        {5, "Jd toilet perfume", 50, 999.99, 0},
+        {6, "Aficionado", 30, 499.99, 0},
+        {7, "Speaker", 25, 999.99, 0},
+        {8, "Skirt", 22, 110.00, 0},
+        {9, "Case", 8, 69.99, 0},
+        {10, "Tempered", 18, 39.99, 0},
+        {11, "Bike", 16, 5999.99, 0},
+        {12, "Apple TV", 14, 599.99, 0},
+        {13, "Thumb Gloves", 11, 29.99, 0},
+        {14, "Umbrella", 7, 129.99, 0},
+        {15, "Bag", 5, 59.99, 0},
+        {16, "Short", 60, 50.00, 0},
+        {17, "Contact Lenses", 35, 199.00, 0},
+        {18, "Caps", 13, 39.99, 0},
+        {19, "Jacket", 9, 1499.99, 0},
+        {20, "Zipper", 17, 19.99, 0},
+        {21, "Foot sock", 23, 29.99, 0},
+        {22, "Mouse", 28, 140.99, 0},
+        {23, "Shades", 19, 240.99, 0},
+        {24, "Hair dryer", 210, 59.99, 0},
+        {25, "Neck tie", 11, 29.99, 0},
+        {26, "Seiko Watch", 8, 6999.99, 0},
+        {27, "Apple watch", 6, 10999.99, 0},
+        {28, "Earpods", 12, 29.99, 0},
+        {29, "Toothbrush", 20, 35.99, 0},
+        {30, "Books", 15, 29.99, 0},
+        {31, "Ball pen", 10, 9.99, 0},
+        {32, "Card board", 14, 19.99, 0},
+        {33, "Adapter", 22, 24.99, 0},
+        {34, "Mcbook Laptop", 9, 69999.99, 0},
+        {35, "Collgate", 13, 129.99, 0},
+        {36, "Ring berry", 16, 19.99, 0},
+        {37, "Cellphone", 40, 7500.00, 0},
+        {38, "Keyboard", 18, 499.99, 0},
+        {39, "Cctv camera", 21, 2999.99, 0},
+        {40, "Aircondition", 17, 11999.99, 0},
+        {41, "Blower", 12, 249.99, 0},
+        {42, "Table", 27, 459.99, 0},
+        {43, "Mirror", 14, 259.99, 0},
+        {44, "T_shirt", 11, 199.99, 0},
+        {45, "Eye glass", 13, 135.00, 0},
+        {46, "Earings", 15, 59.99, 0},
+        {47, "Headphones", 50, 699.99, 0},
+        {48, "Doorlock", 8, 59.99, 0}
+    };
+
+    stock = initialStore;
+    cout << "Stock initialized with predefined store.\n";
+}
+
+// Function to add a store to the stock
+void addItem(vector<StoreItem> &stock) {
+    StoreItem newItem;
+    newItem.id = getNextId(stock); // Generate a new unique ID
+    cout << "\nEnter brand name: ";
+    cin.ignore();
+    getline(cin, newItem.name);
+    cout << "Enter quantity: ";
+    cin >> newItem.quantity;
+    cout << "Enter price: ";
+    cin >> newItem.price;
+    newItem.quantitySold = 0; // Initialize quantitySold to 0
+    stock.push_back(newItem);
+    cout << "Brand added successfully with ID " << newItem.id << ".\n";
+}
+
+// Function to update an existing store in the stock
+void updateItem(vector<StoreItem> &stock) {
+    int id;
+    cout << "\nEnter stock ID to update: ";
+    cin >> id;
+    auto it = find_if(stock.begin(), stock.end(), [id](const StoreItem &item) {
+        return item.id == id;
+    });
+    if (it != stock.end()) {
+        cout << "Enter new quantity: ";
+        cin >> it->quantity;
+        cout << "Enter new price: ";
+        cin >> it->price;
+        cout << "Stock updated successfully.\n";
+    } else {
+        cout << "Stock not found.\n";
+    }
+}
+
+// Function to delete a store from the stock
+void deleteItem(vector<StoreItem> &stock) {
+    int id;
+    cout << "\nEnter stock ID to delete: ";
+    cin >> id;
+    auto it = find_if(stock.begin(), stock.end(), [id](const StoreItem &item) {
+        return item.id == id;
+    });
+    if (it != stock.end()) {
+        stock.erase(it);
+        cout << "Stock deleted successfully.\n";
+    } else {
+        cout << "Stock not found.\n";
+    }
+}
+
+// Function to display all store in the stock
+void displayStock(const vector<StoreItem> &stock) {
+    cout << "\nStock:\n";
+    cout << left << setw(5) << "ID"
+         << left << setw(40) << "Name"
+         << left << setw(10) << "Quantity"
+         << left << setw(10) << "Price" << endl;
+
+    cout << string(65, '-') << endl; // Separator line
+
+    for (const auto &item : stock) {
+        cout << left << setw(5) << item.id
+             << left << setw(40) << item.name
+             << left << setw(10) << item.quantity
+             << left << setw(10) << fixed << setprecision(2) << item.price << endl;
+    }
+}
+
+// Function to search for a store in the stock
+void searchItem(const vector<StoreItem> &stock) {
+    string name;
+    cout << "\nEnter brand name to search: ";
+    cin.ignore();
+    getline(cin, name);
+    auto it = find_if(stock.begin(), stock.end(), [name](const StoreItem &item) {
+        return item.name == name;
+    });
+    if (it != stock.end()) {
+        cout << "Stock found:\n";
+        cout << left << setw(5) << "ID"
+             << left << setw(40) << "Name"
+             << left << setw(10) << "Quantity"
+             << left << setw(10) << "Price"
+             << left << setw(10) << fixed << setprecision(2) << it->price << endl;
+    } else {
+        cout << "Stock not found.\n";
+    }
+}
+
+// Function to handle sold stock
+void sellItem(vector<StoreItem> &stock) {
+    int id;
+    int quantitySold;
+    cout << "\nEnter stock ID to sell: ";
+    cin >> id;
+    auto it = find_if(stock.begin(), stock.end(), [id](const StoreItem &item) {
+        return item.id == id;
+    });
+    if (it != stock.end()) {
+        cout << "Enter quantity to sell: ";
+        cin >> quantitySold;
+        if (quantitySold <= it->quantity) {
+            it->quantity -= quantitySold;
+            it->quantitySold += quantitySold; // Update quantitySold
+            cout << "Sold " << quantitySold << " units of " << it->name << ".\n";
+            if (it->quantity == 0) {
+                cout << "Stock of " << it->name << " is now empty.\n";
+            }
+        } else {
+            cout << "Insufficient stock. Available quantity is " << it->quantity << ".\n";
+        }
+    } else {
+        cout << "Stock not found.\n";
+    }
+}
+
+// Function to show sold items and total price sold
+void showSoldItems(const vector<StoreItem> &stock) {
+    float totalPriceSold = 0.0f;
+
+    cout << "\nSold Items:\n";
+    cout << left << setw(5) << "ID"
+         << left << setw(40) << "Name"
+         << left << setw(15) << "Quantity Sold"
+         << left << setw(15) << "Total Revenue" << endl;
+
+    cout << string(75, '-') << endl; // Separator line
+
+    for (const auto &item : stock) {
+        if (item.quantitySold > 0) { // Check if any quantity has been sold
+            float revenue = item.quantitySold * item.price;
+            cout << left << setw(5) << item.id
+                 << left << setw(40) << item.name
+                 << left << setw(15) << item.quantitySold
+                 << left << setw(15) << fixed << setprecision(2) << revenue <<"Pesos"<< endl;
+            totalPriceSold += revenue; // Accumulate total revenue
+        }
+    }
+
+    // Display the total price sold
+    cout << string(75, '-') << endl;
+    cout << "Total Revenue Sold: " << fixed << setprecision(2) << totalPriceSold << " Pesos" << endl;
+}

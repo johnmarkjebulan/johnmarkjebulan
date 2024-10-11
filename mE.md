@@ -1,264 +1,43 @@
-#include <iostream>
-#include <string>
-#include <list>
-#include <queue>
-using namespace std;
+/*CREATE DATABASE dbElola;*/ 
 
-// StockItem structure representing a stock item
-struct StockItem {
-    string itemName;
-    int quantity;
+CREATE TABLE tblstudents(
+SID int primary key,
+FirstName varchar(20) not null, 
+LastName varchar(20) not null, 
+PhoneNumber varchar(11) not null, 
+EmailAddress varchar(30) not null, 
+Address varchar(30) not null, 
+DateEnrolled date not null,
+Scholar bool not null 
+);
 
-    StockItem(const string& name, int qty) : itemName(name), quantity(qty) {}
-};
+INSERT INTO tblstudents(
+SID,
+FirstName,
+LastName,
+PhoneNumber,
+EmailAddress,
+Address,
+DateEnrolled,
+Scholar
+) VALUES 
+(19, "Isabella Grace", "Elola", "09503767918", "23-12318@g.batstate-u.edu.ph", "Salong Calaca City, Batangas", "24/07/23",1),
+(20, "Angel Bert", "Gonzales", "09292695926", "22-11732@g.batstate-u.edu.ph", "Gumamela Balayan Batangas", "24/07/23", 0),
+(21, "Ma. Elizabeth", "Gutierrez", "09759778589", "23-19461@g.batstate-u.edu.ph", "Caybunga Balayan Batangas", "24/07/23", 1),
+(22, "David Emanuel", "Haboc", "09266222452", "23-14890@g.batstate-u.edu.ph", "Baclaran, Balayan Batangas", "24/08/22", 0),
+(23, "John Mark Angelo", "Jebulan", "09082838172", "23-74405@g.batstate-u.edu.ph", "Baclaran, Balayan Batangas", "24/08/22", 0),
+(24, "Mary Rose", "Julongbayan", "09361586320", "23-19080@g.batstate-u.edu.ph", "Salong, Calaca City Batangas", "24/07/28", 1),
+(25, "Hazel", "Laguras", "09971453097", "23-14869@g.batstate-u.edu.ph", "Puting Bato West Calaca City, Batangas", "24/07/22", 1),
+(26, "Trisha Anne", "Macalindong", "09660026266", "23-11136@g.batstate-u.edu.ph", "Bagong Tubig, Calaca City, Batangas", "24/07/23", 1),
+(27, "Mark Angelo", "Patal", "09913195933", "23-14158@g.batstate-u.edu.ph", "Pantay, Calaca City , Batangas", "24/07/23", 1),
+(28, "Mark Xander", "Patal", "09690484636", "23-10462@g.batstate-u.edu.ph", "Caloocan, Balayan, Batangas", "24/07/29", 1),
+(29, "Catherine Joy", "Riosa", "09660012716", "23-16740@g.batstate-u.edu.ph", "Salong, Calaca City , Batangas", "24/08/08", 1),
+(30, "Kim Eduard", "Saludes", "09052400563", "22-10207@g.batstate-u.edu.ph", "Taludtod, Balayan, Batangas", "24/08/14", 0),
+(31, "Mia Alexa", "Tindoc", "09162555654", "23-14633@g.batstate-u.edu.ph", "Puting Bato West, Calaca City, Batangas", "24/07/31", 1),
+(32, "Lawrence", "Villalobos", "09919159512", "23-15909@g.batstate-u.edu.ph", "Pantay Calaca Batangas", "24/07/07", 1),
+(33, "Luraine", "Villaranda", "09817235903", "23-17947@g.batstate-u.edu.ph", "Camastilisan, Calaca City, Batangas", "24/07/23", 1);
 
-// StockNode structure for linked list implementation
-struct StockNode {
-    string itemName;
-    int quantity;
-    StockNode* next;
 
-    StockNode(const string& name, int qty, StockNode* nxt = nullptr) : itemName(name), quantity(qty), next(nxt) {}
-};
 
-// StockManagement class to manage stock using array, linked list, and queue
-class StockManagement {
-private:
-    vector<StockItem> stockArray; // Vector for stock items
-    StockNode* head; // Linked list head
-    queue<StockItem> stockQueue; // Queue for stock items
-
-public:
-    StockManagement() : head(nullptr) {}
-
-    ~StockManagement() {
-        StockNode* current = head;
-        while (current) {
-            StockNode* next = current->next;
-            delete current;
-            current = next;
-        }
-    }
-
-    // Add a new item to the stock array
-    void addItemToArray(const string& name, int qty) {
-        stockArray.push_back(StockItem(name, qty));
-        cout << "Item added to stock array: " << name << " (Quantity: " << qty << ")" << endl;
-    }
-
-    // Add a new item to the stock linked list
-    void addItemToLinkedList(const string& name, int qty) {
-        StockNode* newNode = new StockNode(name, qty);
-        if (!head) {
-            head = newNode;
-        } else {
-            StockNode* temp = head;
-            while (temp->next) {
-                temp = temp->next;
-            }
-            temp->next = newNode;
-        }
-        cout << "Item added to stock linked list: " << name << " (Quantity: " << qty << ")" << endl;
-    }
-
-    // Add a new item to the stock queue
-    void addItemToQueue(const string& name, int qty) {
-        StockItem newItem(name, qty);
-        stockQueue.push(newItem);
-        cout << "Item added to stock queue: " << name << " (Quantity: " << qty << ")" << endl;
-    }
-
-    // Display all items in the stock array
-    void displayArray() {
-        cout << "****** Stock Array ******" << endl;
-        if (stockArray.empty()) {
-            cout << "No items in stock array." << endl;
-        } else {
-            for (size_t i = 0; i < stockArray.size(); ++i) {
-                cout << "Item " << i + 1 << ": " << stockArray[i].itemName << " - Quantity: " << stockArray[i].quantity << endl;
-            }
-        }
-        cout << "*****************************" << endl;
-    }
-
-    // Display all items in the stock linked list
-    void displayLinkedList() {
-        cout << "***** Stock Linked List *****" << endl;
-        if (!head) {
-            cout << "No items in stock linked list." << endl;
-        } else {
-            StockNode* temp = head;
-            int count = 1;
-            while (temp) {
-                cout << "Item " << count << ": " << temp->itemName << " - Quantity: " << temp->quantity << endl;
-                temp = temp->next;
-                count++;
-            }
-        }
-        cout << "****************************" << endl;
-    }
-
-    // Display all items in the stock queue
-    void displayQueue() {
-        cout << "***** Stock Queue *****" << endl;
-        if (stockQueue.empty()) {
-            cout << "No items in stock queue." << endl;
-        } else {
-            int count = 1;
-            queue<StockItem> tempQueue = stockQueue;
-            while (!tempQueue.empty()) {
-                StockItem item = tempQueue.front();
-                tempQueue.pop();
-                cout << "Item " << count << ": " << item.itemName << " - Quantity: " << item.quantity << endl;
-                count++;
-            }
-        }
-        cout << "****************" << endl;
-    }
-
-    // Search for an item in the stock array
-    void searchArray(const string& name) {
-        bool found = false;
-        for (const auto& item : stockArray) {
-            if (item.itemName == name) {
-                cout << "Item found in stock array: " << item.itemName << " - Quantity: " << item.quantity << endl;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            cout << "Item not found in stock array." << endl;
-        }
-    }
-
-    // Update quantity of an item in the stock array
-    void updateArray(const string& name, int newQty) {
-        for (auto& item : stockArray) {
-            if (item.itemName == name) {
-                item.quantity = newQty;
-                cout << "Item quantity updated in stock array: " << item.itemName << " - New Quantity: " << item.quantity << endl;
-                return;
-            }
-        }
-        cout << "Item not found in stock array. Update failed." << endl;
-    }
-
-    // Delete an item from the stock array
-    void deleteFromArray(const string& name) {
-        auto it = stockArray.begin();
-        while (it != stockArray.end()) {
-            if (it->itemName == name) {
-                it = stockArray.erase(it);
-                cout << "Item deleted from stock array: " << name << endl;
-            } else {
-                ++it;
-            }
-        }
-    }
-
-    // Decrement the quantity of an item in the stock array (sell an item)
-    void sellItemFromArray(const string& name, int soldQty) {
-        for (auto& item : stockArray) {
-            if (item.itemName == name) {
-                if (item.quantity >= soldQty) {
-                    item.quantity -= soldQty;
-                    cout << "Sold " << soldQty << " of " << item.itemName << ". Remaining Quantity: " << item.quantity << endl;
-                } else {
-                    cout << "Not enough quantity of " << item.itemName << " in stock to sell." << endl;
-                }
-                return;
-            }
-        }
-        cout << "Item not found in stock array. Sale failed." << endl;
-    }
-
-    // Exit the program
-    void exitProgram() {
-        cout << "Exiting program." << endl;
-        exit(0);
-    }
-};
-
-int main() {
-    StockManagement stockManager; // Create a stock management object
-
-    while (true) {
-        cout << "***** Stock Management Menu *****" << endl;
-        cout << "1. Add Item" << endl;
-        cout << "2. Display Stock" << endl;
-        cout << "3. Search Item" << endl;
-        cout << "4. Update Item" << endl;
-        cout << "5. Delete Item" << endl;
-        cout << "6. Sell Item" << endl;
-        cout << "7. Exit" << endl;
-        cout << "Enter your choice: ";
-
-        int choice;
-        cin >> choice;
-        cin.ignore(); // Ignore the newline character
-
-        switch (choice) {
-            case 1: {
-                string itemName;
-                int quantity;
-                cout << "Enter item name: ";
-                getline(cin, itemName);
-                cout << "Enter quantity: ";
-                cin >> quantity;
-                cin.ignore(); // Ignore the newline character
-                stockManager.addItemToArray(itemName, quantity);
-                stockManager.addItemToLinkedList(itemName, quantity);
-                stockManager.addItemToQueue(itemName, quantity);
-                break;
-            }
-            case 2:
-                stockManager.displayArray();
-                stockManager.displayLinkedList();
-                stockManager.displayQueue();
-                break;
-            case 3: {
-                string itemName;
-                cout << "Enter item name to search: ";
-                getline(cin, itemName);
-                stockManager.searchArray(itemName);
-                break;
-            }
-            case 4: {
-                string itemName;
-                int newQuantity;
-                cout << "Enter item name to update: ";
-                getline(cin, itemName);
-                cout << "Enter new quantity: ";
-                cin >> newQuantity;
-                cin.ignore(); // Ignore the newline character
-                stockManager.updateArray(itemName, newQuantity);
-                break;
-            }
-            case 5: {
-                string itemName;
-                cout << "Enter item name to delete: ";
-                getline(cin, itemName);
-                stockManager.deleteFromArray(itemName);
-                break;
-            }
-            case 6: {
-                string itemName;
-                int soldQuantity;
-                cout << "Enter item name to sell: ";
-                getline(cin, itemName);
-                cout << "Enter quantity to sell: ";
-                cin >> soldQuantity;
-                cin.ignore(); // Ignore the newline character
-                stockManager.sellItemFromArray(itemName, soldQuantity);
-                break;
-            }
-            case 7:
-                stockManager.exitProgram();
-                break;
-            default:
-                cout << "Invalid choice. Please try again." << endl;
-        }
-    }
-
-    return 0;
-} 
+ /*Select all records from the table*/
+SELECT * FROM tblStudents;
